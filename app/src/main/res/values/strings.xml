@@ -1,0 +1,48 @@
+<resources>
+    <string name="app_name">card-game</string>
+    <string name="mask_rule_content">
+        Przed Tobą quiz składający się z pięciu pytań.\n\n
+
+        Po rozpoczęciu zaprezentujemy Ci pytanie i cztery odpowiedzi. Będziesz miał ograniczoną ilość czasu na odpowiedź.\n\n
+
+        Punktacja: za każdą sekundę czasu pozostałego na odpowiedź dostaniesz 2 punkty. Za prawidłową\n\n
+    </string>
+    <string name="mask_rule_title">Strój - AR</string>
+    <string name="back">Wróć</string>
+    <string name="next">Zaczynamy</string>
+    <string name="dalej">Dalej</string>
+    <string name="good_job">Dobra robota!</string>
+    <string name="steps">Ruchy</string>
+    <string name="time">Czas</string>
+    <string name="zero_timer">00:00</string>
+    <string name="pkt">pkt.</string>
+    <string name="title1">Udało Ci się zdobyć</string>
+    <string name="title0">Gratulacje</string>
+    <string name="title2">Niespodzianka!</string>
+    <string name="title3">W nagrodę za prawidłowe ułożenie układanki otrzymujesz dwie kolorowanki do pobrania! Stuknij w obrazek poniżej aby zapisać kolorowankę</string>
+    <string name="give_up">Poddaję się</string>
+    <string name="lancut">Łańcut - zamek, brama, widok</string>
+    <string name="lancut_content">Rok: 1931\nMiejsce wydania: Paris\n\nNa rewersie nadruk w języku francuskim i polskim.\nTytuł z nadruku na awersie.</string>
+    <string name="ordynata">Łańcut Ordynata Potockiego</string>
+    <string name="ordynata_content">Rok: 1931\nMiejsce wydania: Paris\n\nNa rewersie nadruk w języku francuskim i polskim.\nTytuł z nadruku na awersie.</string>
+    <string name="fontanna">Fontanna</string>
+    <string name="fontanna_content">Rok: 1931\nMiejsce wydania: Paris\n\nNa rewersie nadruk w języku francuskim i polskim.\nTytuł z nadruku na awersie.</string>
+    <string name="done">Gotowe</string>
+    <string name="text">Tekst</string>
+    <string name="frame">Ramka</string>
+    <string name="frame_1">1</string>
+    <string name="frame_2">2</string>
+    <string name="cancel">Brak</string>
+    <string name="frame_3">3</string>
+    <string name="frame_4">4</string>
+    <string name="save">Zapisz pocztówkę</string>
+    <string name="share">Udostępnij pocztówkę</string>
+
+    <string name="on_permission_denied">onPermissionDenied</string>
+    <string name="on_never_ask_again">onNeverAskAgain</string>
+    <string name="share_image">Share Image</string>
+    <string name="success_saving">Card is saved to the gallery</string>
+    <string name="continue2">Kontynuuj</string>
+    <string name="mask_access_title">Dostęp do aparatu</string>
+    <string name="mask_access_content">Strój to filtr AR, aby z niego skorzystać musisz zezwolić na dostęp do aparatu.</string>
+</resources>

@@ -45,21 +45,12 @@ class FragmentMaskGame: Fragment(R.layout.fragment_mask_game) {
         createCameraSource()
 
         binding.btnShot.setOnClickListener {
-//            val previewScreenShot: Bitmap = ScreenShotProvider(tracker.mFaceGraphic.op)
-//            val imgScreenShot = BitmapMerger(tracker.mFaceGraphic.op!!, previewScreenShot)
-
-//            viewModelGame.setMask(tracker.mFaceGraphic.op!!)
-            onNextScreen()
-
-
-
-//            binding.preview.getBitmapFromCameraContent {
-//                val imgScreenShot = BitmapMerger(it, tracker.mFaceGraphic.op!!)
-//
-//                viewModelGame.setMask(imgScreenShot)
-//                onNextScreen()
-//            }
-
+            val previewScreenShot: Bitmap = ScreenShotProvider(binding.faceOverlay)
+            binding.preview.getBitmapFromCameraContent {
+                val imgScreenShot = BitmapMerger(it, previewScreenShot)
+                viewModelGame.setMask(imgScreenShot)
+                onNextScreen()
+            }
         }
 
         binding.btnBottomBack.setOnClickListener {

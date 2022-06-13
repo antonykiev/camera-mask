@@ -46,6 +46,7 @@ dependencies {
 
     implementation (Dependencies.Binding.delegate)
 
+    implementation ("com.google.android.gms:play-services-vision:20.1.3")
     implementation ("com.github.permissions-dispatcher:ktx:1.1.4")
 
 }

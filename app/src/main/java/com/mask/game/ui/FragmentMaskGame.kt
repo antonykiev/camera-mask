@@ -1,9 +1,12 @@
 package com.mask.game.ui
 
 import android.app.Dialog
+import android.graphics.Bitmap
+import android.graphics.Canvas
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
@@ -17,6 +20,9 @@ import com.mask.game.R
 import com.mask.game.databinding.FragmentMaskGameBinding
 import com.mask.game.ui.camera.GraphicOverlay
 import com.mask.game.ui.face.FaceGraphic
+import com.mask.game.utils.BitmapMerger
+import com.mask.game.utils.ScreenShotProvider
+import com.mask.game.viewmodels.ViewModelMask
 import java.io.IOException
 
 
@@ -28,10 +34,44 @@ class FragmentMaskGame: Fragment(R.layout.fragment_mask_game) {
 
     private val binding by viewBinding(FragmentMaskGameBinding::bind)
 
+    private val viewModelGame by activityViewModels<ViewModelMask>()
+
+    val processor = MultiProcessor.Builder<Face>(GraphicFaceTrackerFactory()).build()
+    private val tracker by lazy { GraphicFaceTracker(binding.faceOverlay) }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         createCameraSource()
+
+        binding.btnShot.setOnClickListener {
+//            val previewScreenShot: Bitmap = ScreenShotProvider(tracker.mFaceGraphic.op)
+//            val imgScreenShot = BitmapMerger(tracker.mFaceGraphic.op!!, previewScreenShot)
+
+//            viewModelGame.setMask(tracker.mFaceGraphic.op!!)
+            onNextScreen()
+
+
+
+//            binding.preview.getBitmapFromCameraContent {
+//                val imgScreenShot = BitmapMerger(it, tracker.mFaceGraphic.op!!)
+//
+//                viewModelGame.setMask(imgScreenShot)
+//                onNextScreen()
+//            }
+
+        }
+
+        binding.btnBottomBack.setOnClickListener {
+            requireActivity().onBackPressed()
+        }
+    }
+
+    private fun onNextScreen() {
+        requireActivity().supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.root, FragmentMaskResult())
+            .commit()
     }
 
     private fun createCameraSource() {
@@ -41,7 +81,6 @@ class FragmentMaskGame: Fragment(R.layout.fragment_mask_game) {
             .setMode(FaceDetector.ACCURATE_MODE)
             .build()
 
-        val processor = MultiProcessor.Builder<Face>(GraphicFaceTrackerFactory()).build()
 
         detector.setProcessor(processor)
 
@@ -52,7 +91,7 @@ class FragmentMaskGame: Fragment(R.layout.fragment_mask_game) {
         mCameraSource = CameraSource.Builder(context, detector)
             .setRequestedPreviewSize(640, 480)
             .setFacing(CameraSource.CAMERA_FACING_FRONT)
-            .setRequestedFps(30.0f)
+            .setRequestedFps(60.0f)
             .build()
     }
 
@@ -102,8 +141,9 @@ class FragmentMaskGame: Fragment(R.layout.fragment_mask_game) {
     //***********************************************************************************
 
     private inner class GraphicFaceTrackerFactory : MultiProcessor.Factory<Face> {
+
         override fun create(face: Face): Tracker<Face> {
-            return GraphicFaceTracker(binding.faceOverlay)
+            return tracker
         }
     }
 
@@ -113,13 +153,9 @@ class FragmentMaskGame: Fragment(R.layout.fragment_mask_game) {
      */
     private inner class GraphicFaceTracker(private val mOverlay: GraphicOverlay) : Tracker<Face>() {
 
-        private val mFaceGraphic: FaceGraphic = FaceGraphic(mOverlay)
+        val mFaceGraphic: FaceGraphic = FaceGraphic(mOverlay)
 
-        /**
-         * Start tracking the detected face instance within the face overlay.
-         */
         override fun onNewItem(faceId: Int, item: Face?) {
-            mFaceGraphic.setId(faceId)
         }
 
         /**

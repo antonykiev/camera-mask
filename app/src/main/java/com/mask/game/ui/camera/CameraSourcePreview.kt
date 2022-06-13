@@ -2,15 +2,17 @@ package com.mask.game.ui.camera
 
 import android.content.Context
 import android.content.res.Configuration
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.Canvas
 import android.util.AttributeSet
 import android.util.Log
 import android.view.SurfaceHolder
 import android.view.SurfaceView
 import android.view.ViewGroup
+import com.google.android.gms.common.images.Size
+import com.google.android.gms.vision.CameraSource
 import java.io.IOException
-
-import com.google.android.gms.common.images.Size;
-import com.google.android.gms.vision.CameraSource;
 
 
 class CameraSourcePreview(context: Context, attrs: AttributeSet?): ViewGroup(context, attrs) {
@@ -54,6 +56,14 @@ class CameraSourcePreview(context: Context, attrs: AttributeSet?): ViewGroup(con
         mCameraSource?.let {
             it.stop()
         }
+    }
+
+    fun getBitmapFromCameraContent(onPictureTake: (Bitmap) -> Unit) {
+
+        mCameraSource?.takePicture({}, {
+            val bitmap = BitmapFactory.decodeByteArray(it, 0, it.size)
+            onPictureTake(bitmap)
+        })
     }
 
     fun release() {
@@ -141,7 +151,7 @@ class CameraSourcePreview(context: Context, attrs: AttributeSet?): ViewGroup(con
     }
 
     private fun isPortraitMode(): Boolean {
-        val orientation: Int = context.getResources().configuration.orientation
+        val orientation: Int = context.resources.configuration.orientation
         if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
             return false
         }

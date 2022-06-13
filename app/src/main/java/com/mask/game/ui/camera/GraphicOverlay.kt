@@ -8,13 +8,13 @@ import com.google.android.gms.vision.CameraSource
 
 class GraphicOverlay(context: Context?, attrs: AttributeSet?) : View(context, attrs) {
 
-    private val mLock = Any()
-    private var mPreviewWidth = 0
-    private var mWidthScaleFactor = 1.0f
-    private var mPreviewHeight = 0
-    private var mHeightScaleFactor = 1.0f
-    private var mFacing: Int = CameraSource.CAMERA_FACING_BACK
-    private val mGraphics: MutableSet<Graphic> = HashSet()
+    private val lock = Any()
+    private var previewWidth = 0
+    private var widthScaleFactor = 1.0f
+    private var previewHeight = 0
+    private var heightScaleFactor = 1.0f
+    private var facing: Int = CameraSource.CAMERA_FACING_BACK
+    private val graphics: MutableSet<Graphic> = HashSet()
 
     /**
      * Base class for a custom graphics object to be rendered within the graphic overlay.  Subclass
@@ -42,14 +42,14 @@ class GraphicOverlay(context: Context?, attrs: AttributeSet?) : View(context, at
          * scale.
          */
         fun scaleX(horizontal: Float): Float {
-            return horizontal * overlay.mWidthScaleFactor
+            return horizontal * overlay.widthScaleFactor
         }
 
         /**
          * Adjusts a vertical value of the supplied value from the preview scale to the view scale.
          */
         fun scaleY(vertical: Float): Float {
-            return vertical * overlay.mHeightScaleFactor
+            return vertical * overlay.heightScaleFactor
         }
 
         /**
@@ -57,7 +57,7 @@ class GraphicOverlay(context: Context?, attrs: AttributeSet?) : View(context, at
          * system.
          */
         fun translateX(x: Float): Float {
-            return if (overlay.mFacing == CameraSource.CAMERA_FACING_FRONT) {
+            return if (overlay.facing == CameraSource.CAMERA_FACING_FRONT) {
                 overlay.width - scaleX(x)
             } else {
                 scaleX(x)
@@ -82,7 +82,7 @@ class GraphicOverlay(context: Context?, attrs: AttributeSet?) : View(context, at
      * Removes all graphics from the overlay.
      */
     fun clear() {
-        synchronized(mLock) { mGraphics.clear() }
+        synchronized(lock) { graphics.clear() }
         postInvalidate()
     }
 
@@ -90,7 +90,7 @@ class GraphicOverlay(context: Context?, attrs: AttributeSet?) : View(context, at
      * Adds a graphic to the overlay.
      */
     fun add(graphic: Graphic) {
-        synchronized(mLock) { mGraphics.add(graphic) }
+        synchronized(lock) { graphics.add(graphic) }
         postInvalidate()
     }
 
@@ -98,7 +98,7 @@ class GraphicOverlay(context: Context?, attrs: AttributeSet?) : View(context, at
      * Removes a graphic from the overlay.
      */
     fun remove(graphic: Graphic) {
-        synchronized(mLock) { mGraphics.remove(graphic) }
+        synchronized(lock) { graphics.remove(graphic) }
         postInvalidate()
     }
 
@@ -107,10 +107,10 @@ class GraphicOverlay(context: Context?, attrs: AttributeSet?) : View(context, at
      * image coordinates later.
      */
     fun setCameraInfo(previewWidth: Int, previewHeight: Int, facing: Int) {
-        synchronized(mLock) {
-            mPreviewWidth = previewWidth
-            mPreviewHeight = previewHeight
-            mFacing = facing
+        synchronized(lock) {
+            this.previewWidth = previewWidth
+            this.previewHeight = previewHeight
+            this.facing = facing
         }
         postInvalidate()
     }
@@ -120,12 +120,12 @@ class GraphicOverlay(context: Context?, attrs: AttributeSet?) : View(context, at
      */
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-        synchronized(mLock) {
-            if (mPreviewWidth != 0 && mPreviewHeight != 0) {
-                mWidthScaleFactor = canvas.width.toFloat() / mPreviewWidth.toFloat()
-                mHeightScaleFactor = canvas.height.toFloat() / mPreviewHeight.toFloat()
+        synchronized(lock) {
+            if (previewWidth != 0 && previewHeight != 0) {
+                widthScaleFactor = canvas.width.toFloat() / previewWidth.toFloat()
+                heightScaleFactor = canvas.height.toFloat() / previewHeight.toFloat()
             }
-            for (graphic in mGraphics) {
+            for (graphic in graphics) {
                 graphic.draw(canvas)
             }
         }

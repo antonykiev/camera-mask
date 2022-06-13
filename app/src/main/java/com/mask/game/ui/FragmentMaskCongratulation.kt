@@ -5,11 +5,15 @@ import android.view.View
 import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import by.kirich1409.viewbindingdelegate.viewBinding
+import com.mask.game.R
+import com.mask.game.databinding.FragmentMaskCongratulationsBinding
 import com.mask.game.viewmodels.ViewModelMask
 
-class FragmentMaskCongratulation: Fragment() {
 
-//    private val binding by viewBinding(FragmentCardCongratulationsBinding::bind)
+class FragmentMaskCongratulation: Fragment(R.layout.fragment_mask_congratulations) {
+
+    private val binding by viewBinding(FragmentMaskCongratulationsBinding::bind)
 
     private val viewModelGame by activityViewModels<ViewModelMask>()
 
@@ -20,14 +24,14 @@ class FragmentMaskCongratulation: Fragment() {
             //do nothing
         }
 
-//        viewModelGame.scoreCounter.observe(viewLifecycleOwner) {
-//            val scoreSteps = 50
-//            binding.tvResult.text = "${it.size * scoreSteps}"
-//        }
-//
-//        binding.btnNext.setOnClickListener {
-//
-//        }
+        viewModelGame.scoreCounter.observe(viewLifecycleOwner) {
+            val scoreSteps = 50
+            binding.tvResult.text = "${it.size * scoreSteps}"
+        }
+
+        binding.btnNext.setOnClickListener {
+
+        }
     }
 
 }

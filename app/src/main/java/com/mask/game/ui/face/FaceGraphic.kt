@@ -2,14 +2,13 @@ package com.mask.game.ui.face
 
 import android.graphics.*
 import com.mask.game.ui.camera.GraphicOverlay
-
 import com.google.android.gms.vision.face.Face;
 import com.mask.game.R
 
 
 class FaceGraphic(overlay: GraphicOverlay): GraphicOverlay.Graphic(overlay) {
 
-    private var mBoxPaint: Paint = Paint().apply {
+    private var boxPaint: Paint = Paint().apply {
         color = Color.BLUE
         style = Paint.Style.STROKE
         strokeWidth = 5.0f
@@ -53,9 +52,9 @@ class FaceGraphic(overlay: GraphicOverlay): GraphicOverlay.Graphic(overlay) {
         /**
          * if debug uncomment
          */
-        val right = x + xOffset
-        val bottom = y + yOffset
-        canvas?.drawRect(left, top, right, bottom, mBoxPaint)
+//        val right = x + xOffset
+//        val bottom = y + yOffset
+//        canvas?.drawRect(left, top, right, bottom, boxPaint)
         canvas?.drawBitmap(op!!, left, top, Paint())
     }
 

@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.graphics.Canvas
 import android.util.AttributeSet
 import android.util.Log
 import android.view.SurfaceHolder
@@ -19,84 +18,84 @@ class CameraSourcePreview(context: Context, attrs: AttributeSet?): ViewGroup(con
 
     private val TAG = "CameraSourcePreview"
 
-    private var mSurfaceView: SurfaceView? = null
-    private var mStartRequested = false
-    private var mSurfaceAvailable = false
-    private var mCameraSource: CameraSource? = null
+    private var surfaceView: SurfaceView? = null
+    private var startRequested = false
+    private var surfaceAvailable = false
+    private var cameraSource: CameraSource? = null
 
-    private var mOverlay: GraphicOverlay? = null
+    private var overlay: GraphicOverlay? = null
 
     init {
-        mStartRequested = false
-        mSurfaceAvailable = false
-        mSurfaceView = SurfaceView(context)
-        mSurfaceView!!.holder.addCallback(SurfaceCallback())
-        addView(mSurfaceView)
+        startRequested = false
+        surfaceAvailable = false
+        surfaceView = SurfaceView(context)
+        surfaceView!!.holder.addCallback(SurfaceCallback())
+        addView(surfaceView)
     }
 
     @Throws(IOException::class)
     fun start(cameraSource: CameraSource?) {
         cameraSource ?: stop()
 
-        mCameraSource = cameraSource
+        this.cameraSource = cameraSource
 
-        mCameraSource?.let {
-            mStartRequested = true
+        this.cameraSource?.let {
+            startRequested = true
             startIfReady()
         }
     }
 
     @Throws(IOException::class)
     fun start(cameraSource: CameraSource?, overlay: GraphicOverlay?) {
-        mOverlay = overlay
+        this.overlay = overlay
         start(cameraSource)
     }
 
     fun stop() {
-        mCameraSource?.let {
+        cameraSource?.let {
             it.stop()
         }
     }
 
     fun getBitmapFromCameraContent(onPictureTake: (Bitmap) -> Unit) {
 
-        mCameraSource?.takePicture({}, {
+        cameraSource?.takePicture({}, {
             val bitmap = BitmapFactory.decodeByteArray(it, 0, it.size)
             onPictureTake(bitmap)
         })
     }
 
     fun release() {
-        mCameraSource?.let {
+        cameraSource?.let {
             it.release()
-            mCameraSource = null
+            cameraSource = null
         }
     }
 
     @Throws(IOException::class)
     private fun startIfReady() {
-        if (mStartRequested && mSurfaceAvailable) {
-            mCameraSource!!.start(mSurfaceView!!.holder)
-            if (mOverlay != null) {
-                val size: Size = mCameraSource!!.previewSize
+        if (startRequested && surfaceAvailable) {
+            cameraSource!!.start(surfaceView!!.holder)
+            if (overlay != null) {
+                val size: Size = cameraSource!!.previewSize
                 val min: Int = Math.min(size.getWidth(), size.getHeight())
                 val max: Int = Math.max(size.getWidth(), size.getHeight())
                 if (isPortraitMode()) {
                     // Swap width and height sizes when in portrait, since it will be rotated by
                     // 90 degrees
-                    mOverlay!!.setCameraInfo(min, max, mCameraSource!!.cameraFacing)
+                    overlay!!.setCameraInfo(min, max, cameraSource!!.cameraFacing)
                 } else {
-                    mOverlay!!.setCameraInfo(max, min, mCameraSource!!.cameraFacing)
+                    overlay!!.setCameraInfo(max, min, cameraSource!!.cameraFacing)
                 }
-                mOverlay!!.clear()
+                overlay!!.clear()
             }
-            mStartRequested = false
+            startRequested = false
         }
     }
 
     private inner class SurfaceCallback : SurfaceHolder.Callback {
         override fun surfaceCreated(surface: SurfaceHolder) {
-            mSurfaceAvailable = true
+            surfaceAvailable = true
             try {
                 startIfReady()
             } catch (e: IOException) {
@@ -105,7 +104,7 @@ class CameraSourcePreview(context: Context, attrs: AttributeSet?): ViewGroup(con
         }
 
         override fun surfaceDestroyed(surface: SurfaceHolder) {
-            mSurfaceAvailable = false
+            surfaceAvailable = false
         }
 
         override fun surfaceChanged(holder: SurfaceHolder, format: Int, width: Int, height: Int) {}
@@ -114,8 +113,8 @@ class CameraSourcePreview(context: Context, attrs: AttributeSet?): ViewGroup(con
     override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
         var width = 320
         var height = 240
-        if (mCameraSource != null) {
-            val size: Size? = mCameraSource!!.previewSize
+        if (cameraSource != null) {
+            val size: Size? = cameraSource!!.previewSize
             if (size != null) {
                 width = size.width
                 height = size.height

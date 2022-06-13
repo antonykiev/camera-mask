@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:background="@color/black">
+    android:background="@color/black">
 
     <com.mask.game.ui.camera.CameraSourcePreview
         android:layout_width="match_parent"
@@ -23,7 +23,7 @@
 
     </com.mask.game.ui.camera.CameraSourcePreview>
 
-    <ImageView
+    <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/btnBottomBack"
         android:layout_width="@dimen/img_size"
         android:layout_height="@dimen/img_size"
@@ -31,16 +31,24 @@
         app:layout_constraintBottom_toTopOf="@+id/textView1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/btnShot"
-        tools:src="@tools:sample/avatars" />
+        android:background="@color/white"
+        app:shapeAppearanceOverlay="@style/RoundImg"
+        android:src="@drawable/ic_chevron_left"
+        app:contentPadding="12dp"
+        />
 
-    <ImageView
+    <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/btnShot"
         android:layout_width="@dimen/img_big_size"
         android:layout_height="@dimen/img_big_size"
         app:layout_constraintBottom_toTopOf="@+id/textView1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:src="@tools:sample/avatars" />
+        android:background="@color/white"
+        app:shapeAppearanceOverlay="@style/RoundImg"
+        android:src="@drawable/ic_baseline_photo_camera_24"
+        app:contentPadding="18dp"
+        />
 
     <TextView
         android:id="@+id/textView0"

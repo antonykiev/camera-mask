@@ -122,8 +122,8 @@ class GraphicOverlay(context: Context?, attrs: AttributeSet?) : View(context, at
         super.onDraw(canvas)
         synchronized(mLock) {
             if (mPreviewWidth != 0 && mPreviewHeight != 0) {
-                mWidthScaleFactor = canvas.width as Float / mPreviewWidth.toFloat()
-                mHeightScaleFactor = canvas.height as Float / mPreviewHeight.toFloat()
+                mWidthScaleFactor = canvas.width.toFloat() / mPreviewWidth.toFloat()
+                mHeightScaleFactor = canvas.height.toFloat() / mPreviewHeight.toFloat()
             }
             for (graphic in mGraphics) {
                 graphic.draw(canvas)

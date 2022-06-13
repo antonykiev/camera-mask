@@ -30,14 +30,16 @@ class FragmentMaskCameraAccess : Fragment(R.layout.fragment_mask_camera_access) 
             onPermissionDenied = { Toast.makeText(requireContext(), getString(R.string.on_permission_denied), Toast.LENGTH_SHORT).show() },
             onNeverAskAgain = { Toast.makeText(requireContext(), getString(R.string.on_never_ask_again), Toast.LENGTH_SHORT).show() }
         ) {
-            binding.btnNext.setOnClickListener {
-                requireActivity().supportFragmentManager
-                    .beginTransaction()
-                    .replace(R.id.root, FragmentMaskGame())
-                    .addToBackStack("")
-                    .commit()
-            }
+            nextScreen()
         }
         request.launch()
+    }
+
+    private fun nextScreen() {
+        requireActivity().supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.root, FragmentMaskGame())
+            .addToBackStack("")
+            .commit()
     }
 }

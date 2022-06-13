@@ -59,7 +59,6 @@ class FaceGraphic(overlay: GraphicOverlay): GraphicOverlay.Graphic(overlay) {
         mFaceId = id
     }
 
-
     /**
      * Updates the face instance from the detection of the most recent frame.  Invalidates the
      * relevant portions of the overlay to trigger a redraw.
@@ -67,8 +66,8 @@ class FaceGraphic(overlay: GraphicOverlay): GraphicOverlay.Graphic(overlay) {
     fun updateFace(face: Face) {
         mFace = face
         op = Bitmap.createScaledBitmap(
-            bitmap!!, scaleX(face.getWidth()).toInt(),
-            scaleY(bitmap!!.height * face.getWidth() / bitmap!!.width).toInt(), false
+            bitmap!!, scaleX(face.width).toInt(),
+            scaleY(bitmap!!.height * face.width / bitmap!!.width).toInt(), false
         )
         postInvalidate()
     }
@@ -80,15 +79,19 @@ class FaceGraphic(overlay: GraphicOverlay): GraphicOverlay.Graphic(overlay) {
         val face: Face = mFace ?: return
 
         // Draws a circle at the position of the detected face, with the face's track id below.
-        val x = translateX(face.getPosition().x + face.getWidth() / 2)
-        val y = translateY(face.getPosition().y + face.getHeight() / 2)
-        val xOffset = scaleX(face.getWidth() / 2.0f)
-        val yOffset = scaleY(face.getHeight() / 2.0f)
+        val x = translateX(face.position.x + face.width / 2)
+        val y = translateY(face.position.y + face.height / 2)
+        val xOffset = scaleX(face.width / 2.0f)
+        val yOffset = scaleY(face.height / 2.0f)
         val left = x - xOffset
         val top = y - yOffset
-        val right = x + xOffset
-        val bottom = y + yOffset
-        canvas?.drawRect(left, top, right, bottom, mBoxPaint!!)
+
+        /**
+         * if debug uncomment
+         */
+//        val right = x + xOffset
+//        val bottom = y + yOffset
+//        canvas?.drawRect(left, top, right, bottom, mBoxPaint!!)
         canvas?.drawBitmap(op!!, left, top, Paint())
     }
 

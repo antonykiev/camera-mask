@@ -30,6 +30,8 @@ class FragmentMaskGame: Fragment(R.layout.fragment_mask_game) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        createCameraSource()
     }
 
     private fun createCameraSource() {

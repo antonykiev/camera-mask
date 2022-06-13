@@ -8,23 +8,18 @@ import com.mask.game.R
 
 
 class FaceGraphic(overlay: GraphicOverlay): GraphicOverlay.Graphic(overlay) {
-    private val BOX_STROKE_WIDTH = 5.0f
 
-    private var mBoxPaint: Paint = Paint()
+    private var mBoxPaint: Paint = Paint().apply {
+        color = Color.BLUE
+        style = Paint.Style.STROKE
+        strokeWidth = 5.0f
+    }
 
     @Volatile
     private var mFace: Face? = null
-    private var bitmap: Bitmap? = null
-    var op: Bitmap? = null
+    private var bitmap = BitmapFactory.decodeResource(overlay.context.resources, R.drawable.mask_dracon_face)
+    var op = bitmap
 
-    init {
-        mBoxPaint
-        mBoxPaint.color = Color.BLUE
-        mBoxPaint.style = Paint.Style.STROKE
-        mBoxPaint.strokeWidth = BOX_STROKE_WIDTH
-        bitmap = BitmapFactory.decodeResource(overlay.context.resources, R.drawable.mask_dracon_face)
-        op = bitmap
-    }
 
     /**
      * Updates the face instance from the detection of the most recent frame.  Invalidates the
@@ -60,7 +55,7 @@ class FaceGraphic(overlay: GraphicOverlay): GraphicOverlay.Graphic(overlay) {
          */
         val right = x + xOffset
         val bottom = y + yOffset
-        canvas?.drawRect(left, top, right, bottom, mBoxPaint!!)
+        canvas?.drawRect(left, top, right, bottom, mBoxPaint)
         canvas?.drawBitmap(op!!, left, top, Paint())
     }
 

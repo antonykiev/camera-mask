@@ -2,8 +2,8 @@ package com.mask.game.ui
 
 import android.app.Dialog
 import android.graphics.Bitmap
-import android.graphics.Canvas
 import android.os.Bundle
+import android.util.DisplayMetrics
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -35,6 +35,12 @@ class FragmentMaskGame: Fragment(R.layout.fragment_mask_game) {
     private val binding by viewBinding(FragmentMaskGameBinding::bind)
 
     private val viewModelGame by activityViewModels<ViewModelMask>()
+
+    val metrics by lazy {
+        val _metrics = DisplayMetrics()
+        requireActivity().windowManager.defaultDisplay.getMetrics(_metrics)
+        return@lazy _metrics
+    }
 
     val processor = MultiProcessor.Builder<Face>(GraphicFaceTrackerFactory()).build()
     private val tracker by lazy { GraphicFaceTracker(binding.faceOverlay) }
@@ -79,8 +85,12 @@ class FragmentMaskGame: Fragment(R.layout.fragment_mask_game) {
 
         }
 
+
+
         mCameraSource = CameraSource.Builder(context, detector)
-            .setRequestedPreviewSize(640, 480)
+//            .setRequestedPreviewSize(metrics.heightPixels, metrics.widthPixels)
+            .setRequestedPreviewSize(metrics.widthPixels, metrics.heightPixels)
+//            .setRequestedPreviewSize(640, 480)
             .setFacing(CameraSource.CAMERA_FACING_FRONT)
             .setRequestedFps(60.0f)
             .build()

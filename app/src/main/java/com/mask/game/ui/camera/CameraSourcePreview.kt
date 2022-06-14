@@ -29,6 +29,7 @@ class CameraSourcePreview(context: Context, attrs: AttributeSet?): ViewGroup(con
         startRequested = false
         surfaceAvailable = false
         surfaceView = SurfaceView(context)
+        surfaceView?.layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
         surfaceView!!.holder.addCallback(SurfaceCallback())
         addView(surfaceView)
     }
@@ -111,36 +112,20 @@ class CameraSourcePreview(context: Context, attrs: AttributeSet?): ViewGroup(con
     }
 
     override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
-        var width = 320
-        var height = 240
+        var previewWidth = 320
+        var previewHeight = 240
         if (cameraSource != null) {
             val size: Size? = cameraSource!!.previewSize
             if (size != null) {
-                width = size.width
-                height = size.height
+                previewWidth = size.width
+                previewHeight = size.height
             }
         }
 
-        // Swap width and height sizes when in portrait, since it will be rotated 90 degrees
-        if (isPortraitMode()) {
-            val tmp = width
-            width = height
-            height = tmp
-        }
-        val layoutWidth = right - left
-        val layoutHeight = bottom - top
+        val diff: Int = width / 4
 
-        // Computes height and width for potentially doing fit width.
-        var childWidth = layoutWidth
-        var childHeight = (layoutWidth.toFloat() / width.toFloat() * height).toInt()
-
-        // If height is too tall using fit width, does fit height instead.
-        if (childHeight > layoutHeight) {
-            childHeight = layoutHeight
-            childWidth = (layoutHeight.toFloat() / height.toFloat() * width) as Int
-        }
         for (i in 0 until childCount) {
-            getChildAt(i).layout(0, 0, childWidth, childHeight)
+            getChildAt(i).layout(-diff, 0, width + diff, height)
         }
         try {
             startIfReady()

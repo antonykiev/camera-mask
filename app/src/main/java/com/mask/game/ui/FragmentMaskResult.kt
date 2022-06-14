@@ -31,6 +31,10 @@ class FragmentMaskResult: Fragment(R.layout.fragment_mask_result) {
 
         binding.imgMaskResult.setImageBitmap(bitmap)
 
+        binding.btnBack.setOnClickListener {
+            requireActivity().onBackPressed()
+        }
+
         binding.btnShare.setOnClickListener {
             shareBitmap(bitmap)
             viewModelGame.onShared()

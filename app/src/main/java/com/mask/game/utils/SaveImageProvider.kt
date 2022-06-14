@@ -14,11 +14,11 @@ object SaveImageProvider {
 
     private val folderName = "Budynek"
 
-    fun save(bitmap: Bitmap, context: Context) {
+    suspend fun save(bitmap: Bitmap, context: Context) {
         saveImage(bitmap, context, folderName)
     }
 
-    private fun saveImage(bitmap: Bitmap, context: Context, folderName: String) {
+    private suspend fun saveImage(bitmap: Bitmap, context: Context, folderName: String) {
         if (android.os.Build.VERSION.SDK_INT >= 29) {
             val values = contentValues()
             values.put(MediaStore.Images.Media.RELATIVE_PATH, "Pictures/" + folderName)

@@ -41,7 +41,7 @@
     <string name="on_permission_denied">onPermissionDenied</string>
     <string name="on_never_ask_again">onNeverAskAgain</string>
     <string name="share_image">Share Image</string>
-    <string name="success_saving">Card is saved to the gallery</string>
+    <string name="success_saving_mask">Mask is saved to the gallery</string>
     <string name="continue2">Kontynuuj</string>
     <string name="mask_access_title">Dostęp do aparatu</string>
     <string name="mask_access_content">Strój to filtr AR, aby z niego skorzystać musisz zezwolić na dostęp do aparatu.</string>

@@ -81,16 +81,8 @@ class FragmentMaskGame: Fragment(R.layout.fragment_mask_game) {
 
         detector.setProcessor(processor)
 
-        if (!detector.isOperational) {
-
-        }
-
-
-
         mCameraSource = CameraSource.Builder(context, detector)
-//            .setRequestedPreviewSize(metrics.heightPixels, metrics.widthPixels)
             .setRequestedPreviewSize(metrics.widthPixels, metrics.heightPixels)
-//            .setRequestedPreviewSize(640, 480)
             .setFacing(CameraSource.CAMERA_FACING_FRONT)
             .setRequestedFps(60.0f)
             .build()

@@ -27,7 +27,7 @@
     <string name="ordynata_content">Rok: 1931\nMiejsce wydania: Paris\n\nNa rewersie nadruk w języku francuskim i polskim.\nTytuł z nadruku na awersie.</string>
     <string name="fontanna">Fontanna</string>
     <string name="fontanna_content">Rok: 1931\nMiejsce wydania: Paris\n\nNa rewersie nadruk w języku francuskim i polskim.\nTytuł z nadruku na awersie.</string>
-    <string name="done">Gotowe</string>
+    <string name="done_mask">Gotowo</string>
     <string name="text">Tekst</string>
     <string name="frame">Ramka</string>
     <string name="frame_1">1</string>
@@ -35,8 +35,8 @@
     <string name="cancel">Brak</string>
     <string name="frame_3">3</string>
     <string name="frame_4">4</string>
-    <string name="save">Zapisz pocztówkę</string>
-    <string name="share">Udostępnij pocztówkę</string>
+    <string name="save_mask">Zapisz zdjęcie</string>
+    <string name="share_mask">Udostępnij zdjęcie</string>
 
     <string name="on_permission_denied">onPermissionDenied</string>
     <string name="on_never_ask_again">onNeverAskAgain</string>

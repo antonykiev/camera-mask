@@ -26,7 +26,7 @@
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnDone"
         style="@style/LongButtonGreen"
-        android:text="@string/done"
+        android:text="@string/done_mask"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -34,7 +34,7 @@
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnShare"
         style="@style/LongButtonWhite"
-        android:text="@string/share"
+        android:text="@string/share_mask"
         android:layout_marginBottom="16dp"
         app:layout_constraintBottom_toTopOf="@+id/btnDone"
         app:layout_constraintEnd_toEndOf="parent"
@@ -44,7 +44,7 @@
         android:id="@+id/btnSave"
         style="@style/LongButtonWhite"
         android:layout_marginBottom="16dp"
-        android:text="@string/save"
+        android:text="@string/save_mask"
         app:layout_constraintBottom_toTopOf="@+id/btnShare"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

@@ -7,6 +7,7 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
+import com.google.android.material.snackbar.Snackbar
 import com.mask.game.R
 import com.mask.game.databinding.FragmentMaskGameBinding
 import com.mask.game.databinding.FragmentMaskResultBinding
@@ -44,6 +45,11 @@ class FragmentMaskResult: Fragment(R.layout.fragment_mask_result) {
 
         binding.btnSave.setOnClickListener {
             SaveImageProvider.save(bitmap, requireContext())
+            Snackbar.make(
+                binding.root,
+                getString(R.string.success_saving),
+                Snackbar.LENGTH_SHORT
+            ).show()
             viewModelGame.onSaved()
         }
 

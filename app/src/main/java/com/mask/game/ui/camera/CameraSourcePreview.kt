@@ -150,8 +150,15 @@ class CameraSourcePreview(context: Context, attrs: AttributeSet?): ViewGroup(con
                 childHeight = layoutHeight
                 childWidth = (layoutHeight.toFloat() / height.toFloat() * width) as Int
             }
+
+            val dm = DisplayMetrics()
+            (context as Activity).windowManager.defaultDisplay.getMetrics(dm)
+            val displayWidth = dm.widthPixels
+            val displayHeight = dm.heightPixels
+
             for (i in 0 until childCount) {
-                getChildAt(i).layout(0, 0, childWidth, childHeight)
+                getChildAt(i).layout(- width/2, 0,  width + (width / 2), displayHeight)
+//                getChildAt(i).layout(0, 0, childWidth, childHeight)
             }
             try {
                 startIfReady()

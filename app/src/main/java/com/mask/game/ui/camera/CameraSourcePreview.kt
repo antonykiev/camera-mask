@@ -1,10 +1,12 @@
 package com.mask.game.ui.camera
 
+import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
-import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.util.AttributeSet
+import android.util.DisplayMetrics
 import android.util.Log
 import android.view.SurfaceHolder
 import android.view.SurfaceView
@@ -79,15 +81,18 @@ class CameraSourcePreview(context: Context, attrs: AttributeSet?): ViewGroup(con
             cameraSource!!.start(surfaceView!!.holder)
             if (overlay != null) {
                 val size: Size = cameraSource!!.previewSize
-                val min: Int = Math.min(size.getWidth(), size.getHeight())
-                val max: Int = Math.max(size.getWidth(), size.getHeight())
-                if (isPortraitMode()) {
-                    // Swap width and height sizes when in portrait, since it will be rotated by
-                    // 90 degrees
-                    overlay!!.setCameraInfo(min, max, cameraSource!!.cameraFacing)
-                } else {
-                    overlay!!.setCameraInfo(max, min, cameraSource!!.cameraFacing)
-                }
+//                val min: Int = Math.min(size.width, size.height)
+//                val max: Int = Math.max(size.getWidth(), size.getHeight())
+
+                overlay!!.setCameraInfo(size.height, size.width, cameraSource!!.cameraFacing)
+
+//                if (isPortraitMode()) {
+//                    // Swap width and height sizes when in portrait, since it will be rotated by
+//                    // 90 degrees
+//                    overlay!!.setCameraInfo(min, max, cameraSource!!.cameraFacing)
+//                } else {
+//                    overlay!!.setCameraInfo(max, min, cameraSource!!.cameraFacing)
+//                }
                 overlay!!.clear()
             }
             startRequested = false
@@ -111,6 +116,7 @@ class CameraSourcePreview(context: Context, attrs: AttributeSet?): ViewGroup(con
         override fun surfaceChanged(holder: SurfaceHolder, format: Int, width: Int, height: Int) {}
     }
 
+    @SuppressLint("DrawAllocation")
     override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
         var previewWidth = 320
         var previewHeight = 240
@@ -122,7 +128,11 @@ class CameraSourcePreview(context: Context, attrs: AttributeSet?): ViewGroup(con
             }
         }
 
-        val diff: Int = width / 4
+        val dm = DisplayMetrics()
+        (context as Activity).windowManager.defaultDisplay.getMetrics(dm)
+        val displayWidth = dm.widthPixels
+        val displayHeight = dm.heightPixels
+        val diff: Int = (width / (displayHeight / displayWidth)) / 2
 
         for (i in 0 until childCount) {
             getChildAt(i).layout(-diff, 0, width + diff, height)
@@ -134,15 +144,15 @@ class CameraSourcePreview(context: Context, attrs: AttributeSet?): ViewGroup(con
         }
     }
 
-    private fun isPortraitMode(): Boolean {
-        val orientation: Int = context.resources.configuration.orientation
-        if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            return false
-        }
-        if (orientation == Configuration.ORIENTATION_PORTRAIT) {
-            return true
-        }
-        Log.d(TAG, "isPortraitMode returning false by default")
-        return false
-    }
+//    private fun isPortraitMode(): Boolean {
+//        val orientation: Int = context.resources.configuration.orientation
+//        if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+//            return false
+//        }
+//        if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+//            return true
+//        }
+//        Log.d(TAG, "isPortraitMode returning false by default")
+//        return false
+//    }
 }

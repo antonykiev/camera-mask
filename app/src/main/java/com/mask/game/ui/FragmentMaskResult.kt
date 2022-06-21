@@ -1,9 +1,13 @@
 package com.mask.game.ui
 
+import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -11,8 +15,8 @@ import com.google.android.material.snackbar.Snackbar
 import com.mask.game.R
 import com.mask.game.databinding.FragmentMaskResultBinding
 import com.mask.game.utils.BitmapToUriProvider
-import com.mask.game.utils.SaveImageProvider
 import com.mask.game.viewmodels.ViewModelMask
+
 
 class FragmentMaskResult: Fragment(R.layout.fragment_mask_result) {
 
@@ -64,12 +68,14 @@ class FragmentMaskResult: Fragment(R.layout.fragment_mask_result) {
         println(state)
         when (state) {
             ViewModelMask.SavingState.Saving -> {
+                binding.btnDone.visibility = View.GONE
                 binding.progressBar.visibility = View.VISIBLE
                 btnList.forEach {
                     it.isClickable = false
                 }
             }
             ViewModelMask.SavingState.Saved -> {
+                binding.btnDone.visibility = View.VISIBLE
                 binding.progressBar.visibility = View.INVISIBLE
                 btnList.forEach {
                     it.isClickable = true
@@ -81,6 +87,7 @@ class FragmentMaskResult: Fragment(R.layout.fragment_mask_result) {
                 ).show()
             }
             ViewModelMask.SavingState.Nothing -> {
+                binding.btnDone.visibility = View.GONE
                 binding.progressBar.visibility = View.INVISIBLE
                 btnList.forEach {
                     it.isClickable = true
@@ -89,11 +96,17 @@ class FragmentMaskResult: Fragment(R.layout.fragment_mask_result) {
         }
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        binding.btnDone.visibility = View.VISIBLE
+    }
+
     private fun shareBitmap(imgScreenShot: Bitmap) {
         val uri = BitmapToUriProvider.invoke(requireActivity(), imgScreenShot)
         val intent = Intent(Intent.ACTION_SEND)
         intent.type = "image/*"
         intent.putExtra(Intent.EXTRA_STREAM, uri)
-        startActivity(Intent.createChooser(intent, getString(R.string.share_image)))
+        startActivityForResult(Intent.createChooser(intent, getString(R.string.share_image)), 1)
     }
+
 }
